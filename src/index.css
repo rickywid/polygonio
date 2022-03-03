@@ -1,13 +1,96 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: #5d5c5c;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+p {
+  margin: 0;
+}
+
+button {
+  background: none;
+  outline: none;
+  border: 1px solid lightgrey;
+  margin-right: 10px;
+}
+
+button.active {
+  border: 1px solid red;
+}
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  height: calc(100vh - 100px);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+.answers {
+  margin-top: 20px;
+  background: #dbfadb;
+  padding: 20px;
+  border: 1px solid #9bc59b;
+}
+
+.answers p {
+  margin: 5px;
+}
+
+.answer {
+  display: flex;
+}
+
+.answer p {
+  flex: 1;
+}
+
+h1 {
+  margin: 0;
+  color: black !important;
+}
+
+.subheader{
+  margin: 20px 0 60px 0;
+}
+
+.message {
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.message.red {
+  color: rgb(224, 53, 53) !important;
+}
+
+.message.green {
+  color: rgb(60, 161, 60) !important;
+}
+
+.streak {
+  float: right;
+}
+
+.show-list {
+  border: 1px solid grey;
+  display: inline-block;
+  padding: 5px
+}
+
+.show-list:hover {
+  cursor: pointer;
+}
+
+.list {
+  margin-bottom: 20px;
+}
+
+.draggable-wrap {
+  width: 100%;
 }
