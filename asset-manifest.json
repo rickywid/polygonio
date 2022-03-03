@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/wallstreet/static/css/main.d8b7bff9.css",
+    "main.js": "/wallstreet/static/js/main.62dc6129.js",
+    "static/js/787.84fcf748.chunk.js": "/wallstreet/static/js/787.84fcf748.chunk.js",
+    "index.html": "/wallstreet/index.html",
+    "main.d8b7bff9.css.map": "/wallstreet/static/css/main.d8b7bff9.css.map",
+    "main.62dc6129.js.map": "/wallstreet/static/js/main.62dc6129.js.map",
+    "787.84fcf748.chunk.js.map": "/wallstreet/static/js/787.84fcf748.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d8b7bff9.css",
+    "static/js/main.62dc6129.js"
+  ]
+}
