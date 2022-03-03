@@ -17,6 +17,8 @@ import {
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+import logo from './stockmarket.png'
+
 function App() {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -99,19 +101,23 @@ function App() {
     setGameDone(true)
     for (let i = 0; i < stocksTicker.length; i++) {
       if (stocksTicker[i] !== answer[i].symbol) {
-        localStorage.setItem('streak',String(0))
+        localStorage.setItem('streak', String(0))
         setMessage('INCORRECT. REFRESH PAGE TO PLAY AGAIN.')
         return
       }
     }
     streak += 1;
-    localStorage.setItem('streak',String(streak++))
+    localStorage.setItem('streak', String(streak++))
     setMessage('SUCCESS!')
   }
 
   const startGame = () => {
     setGameDone(false)
   }
+
+
+  let options: any = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  let today = new Date();
 
   return (
     <div>
@@ -134,9 +140,12 @@ function App() {
           <button className={stocksTicker.includes('COIN') ? 'active' : ''}>Coinbase</button>
         </div>
       )}
-      <small className="show-list" onClick={() => setShowList(!showList)}>{showList ? 'Hide': "Companies list"}</small>
+      <small className="show-list" onClick={() => setShowList(!showList)}>{showList ? 'Hide' : "Companies list"}</small>
       <main>
-        <h1>WALLSTREET</h1>
+        <div className="header">
+          <img src={logo} alt="logo" />
+          <h1>WALLSTREET</h1>
+        </div>
         <p className="subheader">Rearrange the list of company's stock price from highest to lowest.</p>
         <div className="draggable-wrap">
           <div>
@@ -160,12 +169,15 @@ function App() {
             <p className={`message ${message === 'SUCCESS!' ? "green" : "red"}`}>{message}</p>
           </div>
           {reveal &&
-            <div className="answers">{answer.map((id: any) => (
-              <div className="answer">
-                <p>{id.symbol}</p>
-                <p>${id.close}</p>
-              </div>
-            ))}</div>
+            <div className="answers">
+              {answer.map((id: any) => (
+                <div className="answer">
+                  <p>{id.symbol}</p>
+                  <p>${id.close}</p>
+                </div>
+              ))}
+              <small className="last-update">Last updated {today.toLocaleDateString("en-US", options)} from <a href="https://polygon.io">Polygon</a> </small>
+            </div>
           }
         </div>
       </main>
