@@ -3,7 +3,7 @@
 
 A game where the user must rearrange the list of company's stock price from highest to lowest. Stock price data is provided by [Polygon.io's API](https://polygon.io) and news headline ticker data is from [Gnews API](https://gnews.io). Polygon's free tier plan allows up to 5 API calls/minute.
 
-**[Live Site](https://rickywid.github.io/wallstreet/)**
+**[Live Site](https://i.imgur.com/K2iaikW.jpg)**
 
 ### Frontend Technologies
 - [React](https://reactjs.org/)
