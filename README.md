@@ -1,5 +1,5 @@
 # Wallstreet
-![screenshot](https://i.imgur.com/sSNwY2D.png)
+![screenshot](https://i.imgur.com/CC7zjzh.jpg)
 
 A game where the user must rearrange the list of company's stock price from highest to lowest. Stock price data is provided by [Polygon.io's API](https://polygon.io). Free tier allows up to 5 API calls/minute.
 
