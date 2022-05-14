@@ -1,5 +1,26 @@
 body {
   color: #5d5c5c;
+  overflow: hidden;
+  margin: 0;
+}
+
+a {
+  color: orange;
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(245, 192, 95);
+}
+
+a:after {
+  content: '●';
+  margin-left: 5px;
+  margin-right: 5px;
+  font-size: 10px;
+  margin-top: -5px;
+  vertical-align: middle;
+  display: inline-block;
 }
 
 p {
@@ -9,7 +30,7 @@ p {
 button {
   background: none;
   outline: none;
-  border: 1px solid lightgrey;
+  border: none;
   margin-right: 10px;
 }
 
@@ -66,16 +87,13 @@ h1 {
   font-weight: bold;
 }
 
-.message.red {
-  color: rgb(224, 53, 53) !important;
-}
-
-.message.green {
-  color: rgb(60, 161, 60) !important;
-}
-
 .streak {
   float: right;
+  background: #ffd680;
+  padding: 5px 10px;
+  border-bottom: 3px solid orange;
+  border-radius: 5px;
+  color: #a0711b;
 }
 
 .show-list {
@@ -88,18 +106,111 @@ h1 {
   cursor: pointer;
 }
 
-.list {
-  margin-bottom: 20px;
+.ticker-top {
+  position: absolute;
+  top: 0;
+  background: black;
+  width: 100%;
+  height: 30px;
 }
+
+.ticker-bottom {
+  position: absolute;
+  bottom: 0;
+  background: black;
+  width: 100%;
+  height: 30px;
+}
+
+.list {
+  font-family: 'VT323', monospace;
+  text-transform: uppercase;
+  position: absolute;
+  font-size: 24px;
+  white-space: nowrap;
+}
+
+.list-top {
+  top: 0;
+  animation: slideinRight 100s linear infinite;
+}
+
+.list-bottom {
+  bottom: 0;
+  animation: slideinLeft 100s linear infinite;
+}
+
 
 .draggable-wrap {
   width: 100%;
 }
 
-.last-update { 
+.last-update {
   margin-top: 30px;
   display: block;
- }
- .header {
-    text-align: center;
- }
+}
+
+.header {
+  text-align: center;
+}
+
+.check-btn {
+  background: #74db5e;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border-bottom: 3px solid green;
+  color: #0b530b;
+}
+
+.check-btn:hover,
+.show-answers-btn:hover {
+  border: 2px solid green;
+  cursor: pointer;
+}
+
+.show-answers-btn {
+  background: #74db5e;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border-bottom: 3px solid green;
+}
+
+.message {
+  text-align: center;
+}
+
+.message.green {
+  background: #74db5e;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border-bottom: 3px solid green;
+  color: white;
+}
+
+.message.red {
+  border-bottom: 3px solid red;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: #ff4949;
+  color: white;
+}
+
+@keyframes slideinRight {
+  from {
+    right: -255%;
+  }
+
+  to {
+    right: 100%;
+  }
+}
+
+@keyframes slideinLeft {
+  from {
+    left: -255%;
+  }
+
+  to {
+    left: 100%;
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -16,8 +16,8 @@ import {
 
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-
 import logo from './stockmarket.png'
+import tickers from './tickers';
 
 function App() {
   const sensors = useSensors(
@@ -32,24 +32,45 @@ function App() {
   const [message, setMessage] = useState<string>("")
   const [gameDone, setGameDone] = useState<boolean>(false)
   const [reveal, setReveal] = useState<boolean>(false)
-  const [showList, setShowList] = useState<boolean>(false)
+  const [headlines, setHeadlines] = useState<{ title: string, url: string }[]>([])
+  const BASEURL = 'https://api.polygon.io/v1/open-close'
+  const POLYGONAPIKEY = 'Eoq2ZsITb6G_7Kfyp4ZeapVVQIyybHVX'
+  const NEWSAPIKEY = 'e20d57e298b3499901ab4109ce72af7f'
 
   useEffect(() => {
 
-    localStorage.setItem('streak', '0')
+    try {
+      fetch(`https://gnews.io/api/v4/top-headlines?token=${NEWSAPIKEY}&topic=technology&&country=us&language=en`).then(res => {
+        if (res.status !== 200) {
+          throw Error('Fetching headlines data available on localhost only.')
+        }
+        return res.json()
+      }).then(data => {
+        setHeadlines(data.articles)
+      }).catch(err => {
+        console.log(err)
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }, [])
 
-    const tickers = ['AAPL', 'AMZN', 'GOOG', 'MSFT', 'FB', 'NFLX', 'TWTR', 'ABNB', 'UBER', 'GME', 'BB', 'TSLA', 'SNAP', 'RBLX', 'COIN']
+
+
+  useEffect(() => {
+    let streak = localStorage.getItem('streak') || '0'
+    localStorage.setItem('streak', streak)
+
     let arr: string[] = []
 
     while (arr.length < 5) {
 
       const index = randomNum(tickers.length, 0)
 
-      if (!arr.includes(tickers[index])) {
-        arr.push(tickers[index])
+      if (!arr.includes(tickers[index].symbol)) {
+        arr.push(tickers[index].symbol)
       }
     }
-
 
     const day = new Date().getDate()
     const month = new Date().getMonth()
@@ -60,15 +81,15 @@ function App() {
     const yearStr = year < 10 ? `0${year}` : year
 
     Promise.all([
-      fetch(`https://api.polygon.io/v1/open-close/${arr[0]}/${yearStr}-${monthStr}-${dayStr}?apiKey=Eoq2ZsITb6G_7Kfyp4ZeapVVQIyybHVX`).then(res => res.json()),
-      fetch(`https://api.polygon.io/v1/open-close/${arr[1]}/${yearStr}-${monthStr}-${dayStr}?apiKey=Eoq2ZsITb6G_7Kfyp4ZeapVVQIyybHVX`).then(res => res.json()),
-      fetch(`https://api.polygon.io/v1/open-close/${arr[2]}/${yearStr}-${monthStr}-${dayStr}?apiKey=Eoq2ZsITb6G_7Kfyp4ZeapVVQIyybHVX`).then(res => res.json()),
-      fetch(`https://api.polygon.io/v1/open-close/${arr[3]}/${yearStr}-${monthStr}-${dayStr}?apiKey=Eoq2ZsITb6G_7Kfyp4ZeapVVQIyybHVX`).then(res => res.json()),
-      fetch(`https://api.polygon.io/v1/open-close/${arr[4]}/${yearStr}-${monthStr}-${dayStr}?apiKey=Eoq2ZsITb6G_7Kfyp4ZeapVVQIyybHVX`).then(res => res.json())
+      fetch(`${BASEURL}/${arr[0]}/${yearStr}-${monthStr}-${dayStr}?apiKey=${POLYGONAPIKEY}`).then(res => res.json()),
+      fetch(`${BASEURL}/${arr[1]}/${yearStr}-${monthStr}-${dayStr}?apiKey=${POLYGONAPIKEY}`).then(res => res.json()),
+      fetch(`${BASEURL}/${arr[2]}/${yearStr}-${monthStr}-${dayStr}?apiKey=${POLYGONAPIKEY}`).then(res => res.json()),
+      fetch(`${BASEURL}/${arr[3]}/${yearStr}-${monthStr}-${dayStr}?apiKey=${POLYGONAPIKEY}`).then(res => res.json()),
+      fetch(`${BASEURL}/${arr[4]}/${yearStr}-${monthStr}-${dayStr}?apiKey=${POLYGONAPIKEY}`).then(res => res.json())
     ]).then(res => {
 
       if (res[0].status === "ERROR") {
-        setMessage("Website is busy. Refresh page in 30 seconds and try again.")
+        setMessage("API request limit has been reached. Try refreshing page in 30-60 seconds.")
       }
 
       const answer = [...res].sort((a, b) => {
@@ -111,36 +132,19 @@ function App() {
     setMessage('SUCCESS!')
   }
 
-  const startGame = () => {
-    setGameDone(false)
-  }
-
 
   let options: any = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   let today = new Date();
 
   return (
     <div>
-      {showList && (
-        <div className="list">
-          <button className={stocksTicker.includes('AAPL') ? 'active' : ''}>Apple</button>
-          <button className={stocksTicker.includes('AMZN') ? 'active' : ''}>Amazon</button>
-          <button className={stocksTicker.includes('GOOG') ? 'active' : ''}>Google</button>
-          <button className={stocksTicker.includes('MSFT') ? 'active' : ''}>Microsoft</button>
-          <button className={stocksTicker.includes('FB') ? 'active' : ''}>Facebook</button>
-          <button className={stocksTicker.includes('NFLX') ? 'active' : ''}>Netflix</button>
-          <button className={stocksTicker.includes('TWTR') ? 'active' : ''}>Twitter</button>
-          <button className={stocksTicker.includes('ABNB') ? 'active' : ''}>AirBnB</button>
-          <button className={stocksTicker.includes('UBER') ? 'active' : ''}>Uber</button>
-          <button className={stocksTicker.includes('GME') ? 'active' : ''}>Gamestop</button>
-          <button className={stocksTicker.includes('BB') ? 'active' : ''}>Blackberry</button>
-          <button className={stocksTicker.includes('TSLA') ? 'active' : ''}>Tesla</button>
-          <button className={stocksTicker.includes('SNAP') ? 'active' : ''}>Snap</button>
-          <button className={stocksTicker.includes('RBLX') ? 'active' : ''}>Roblox</button>
-          <button className={stocksTicker.includes('COIN') ? 'active' : ''}>Coinbase</button>
+      <div className="ticker-top">
+        <div className="list list-top">
+          {headlines.map(headline => <a key={headline.title} href={headline.url} target="_blank" rel="noopener noreferrer">{headline.title}</a>)}
+          {/* {tickers.map(ticker => <button className={stocksTicker.includes(ticker.symbol) ? 'active' : ''}>{ticker.name}</button>)} */}
         </div>
-      )}
-      <small className="show-list" onClick={() => setShowList(!showList)}>{showList ? 'Hide' : "Companies list"}</small>
+      </div>
+      {/* <small className="show-list" onClick={() => setShowList(!showList)}>{showList ? 'Hide' : "Companies list"}</small> */}
       <main>
         <div className="header">
           <img src={logo} alt="logo" />
@@ -163,24 +167,33 @@ function App() {
             </DndContext>
           </div>
           <div>
-            {!gameDone && <button onClick={checkAnswer}>check!</button>}
-            {gameDone && <button onClick={() => setReveal(true)}>Show answers</button>}
+            {!gameDone && <button className="check-btn" onClick={checkAnswer}>check!</button>}
+            {gameDone && <button className="show-answers-btn" onClick={() => setReveal(true)}>Show answers</button>}
             <small className="streak">Streak: {localStorage.getItem('streak')}</small>
-            <p className={`message ${message === 'SUCCESS!' ? "green" : "red"}`}>{message}</p>
+            {message && <p className={`message ${message === 'SUCCESS!' ? "green" : "red"}`}>{message}</p>}
           </div>
           {reveal &&
             <div className="answers">
-              {answer.map((id: any) => (
-                <div className="answer">
-                  <p>{id.symbol}</p>
-                  <p>${id.close}</p>
-                </div>
-              ))}
+              {answer.map((id: any) => {
+                console.log(id)
+                return (
+                  <div key={id} className="answer">
+                    <p>{id.symbol}</p>
+                    <p>${id.close}</p>
+                  </div>
+                )
+              }
+              )}
               <small className="last-update">Last updated {today.toLocaleDateString("en-US", options)} from <a href="https://polygon.io">Polygon</a> </small>
             </div>
           }
         </div>
       </main>
+      <div className="ticker-bottom">
+        <div className="list list-bottom">
+          {headlines.map(headline => <a key={headline.title} href={headline.url} target="_blank" rel="noopener noreferrer">{headline.title}</a>)}
+        </div>
+      </div>
     </div>
   );
 
