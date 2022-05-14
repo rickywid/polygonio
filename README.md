@@ -10,7 +10,7 @@ A game where the user must rearrange the list of company's stock price from high
 - [dndkit](https://dndkit.com/)
 - [Polygon.io API](https://polygon.io)
 - [Gnews API](https://gnews.io)
-- 
+
 ## Local Development
 
 Clone application:
