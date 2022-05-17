@@ -61,8 +61,8 @@ const symbols: ISymbols[] = [
         name: 'Roblox'
     },
     {
-        symbol: 'COINBASE',
-        name: 'COIN'
+        symbol: 'COIN',
+        name: 'Coinbase'
     },
     {
         symbol: 'NVDA',

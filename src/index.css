@@ -197,7 +197,7 @@ h1 {
 
 @keyframes slideinRight {
   from {
-    right: -255%;
+    right: -280%;
   }
 
   to {
@@ -207,7 +207,7 @@ h1 {
 
 @keyframes slideinLeft {
   from {
-    left: -255%;
+    left: -280%;
   }
 
   to {
